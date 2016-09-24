@@ -14,7 +14,7 @@ public class DraggingSystem : MonoBehaviour {
 
     void FixedUpdate()
     {
-        if (cancel_momentum)
+        if (cancel_momentum && previous_dragging != null)
         {
             previous_dragging.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
             previous_dragging.GetComponent<Rigidbody2D>().angularVelocity = 0;

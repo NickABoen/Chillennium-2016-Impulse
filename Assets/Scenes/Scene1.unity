@@ -147,7 +147,7 @@ Transform:
   m_GameObject: {fileID: 360619876}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 25.5, y: 10, z: 1}
+  m_LocalScale: {x: 30, y: 10, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
@@ -253,59 +253,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: -5.41}
   serializedVersion: 2
-  m_Size: {x: 26, y: 1}
---- !u!1001 &1578583909
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4000010698238574, guid: 3d92c12ce37f95d4fbb2eac050f72ced, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: -0.13
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000010698238574, guid: 3d92c12ce37f95d4fbb2eac050f72ced, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 2.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000010698238574, guid: 3d92c12ce37f95d4fbb2eac050f72ced, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000010698238574, guid: 3d92c12ce37f95d4fbb2eac050f72ced, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000010698238574, guid: 3d92c12ce37f95d4fbb2eac050f72ced, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000010698238574, guid: 3d92c12ce37f95d4fbb2eac050f72ced, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000010698238574, guid: 3d92c12ce37f95d4fbb2eac050f72ced, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000010698238574, guid: 3d92c12ce37f95d4fbb2eac050f72ced, type: 2}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 50000010369815784, guid: 3d92c12ce37f95d4fbb2eac050f72ced,
-        type: 2}
-      propertyPath: m_SleepingMode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 50000010369815784, guid: 3d92c12ce37f95d4fbb2eac050f72ced,
-        type: 2}
-      propertyPath: m_Constraints
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 3d92c12ce37f95d4fbb2eac050f72ced, type: 2}
-  m_IsPrefabParent: 0
+  m_Size: {x: 30, y: 1}
 --- !u!1 &1911926353
 GameObject:
   m_ObjectHideFlags: 0
@@ -316,6 +264,7 @@ GameObject:
   - 4: {fileID: 1911926355}
   - 114: {fileID: 1911926354}
   - 114: {fileID: 1911926356}
+  - 114: {fileID: 1911926357}
   m_Layer: 0
   m_Name: Scripts
   m_TagString: Untagged
@@ -354,9 +303,35 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1911926353}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1866e229e9026bc4685aa943516b8ac6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 0}
+  prefab: {fileID: 1000010209004918, guid: 3d92c12ce37f95d4fbb2eac050f72ced, type: 2}
+--- !u!114 &1911926357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1911926353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 606adf72d32cce643af34ab72eaa7a13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  block_prefab: {fileID: 1000010209004918, guid: 3d92c12ce37f95d4fbb2eac050f72ced,
+    type: 2}
+  circle_prefab: {fileID: 1000013948658256, guid: 0c0d8cf7b33c66645be37f362d863758,
+    type: 2}
+  switch_prefab: {fileID: 1000010812597506, guid: 8310911c5f1b5224693e986c4e206139,
+    type: 2}
+  button_prefab: {fileID: 1000010812597506, guid: 8310911c5f1b5224693e986c4e206139,
+    type: 2}
+  lock_prefab: {fileID: 1000010013423052, guid: 697f73e234ff67c4f95f71a04734ed11,
+    type: 2}
+  number_prefab: {fileID: 1000010209004918, guid: 3d92c12ce37f95d4fbb2eac050f72ced,
+    type: 2}
+  current_action: 1
+  current_object: 1
+  global_number: 4

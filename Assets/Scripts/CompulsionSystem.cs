@@ -88,13 +88,13 @@ public class CompulsionSystem : MonoBehaviour {
             case enActions.Aligning:
                 for(int i = 0; i < global_number; i++)
                 {
-                    Transform new_position = block_prefab.transform;
-                    new_position.position = new Vector3(
-                        Random.Range(0, 2 * global_number) - global_number,
-                        new_position.position.y + (i * block_size.y),
-                        new_position.position.z
+                    GameObject new_block = GameObject.Instantiate(block_prefab);
+                    new_block.transform.position = new Vector3(
+                        //Random.Range(0, 2 * global_number) - global_number,
+                        Random.Range(0.0f, 1.0f) - 0.5f,
+                        new_block.transform.position.y + (i * block_size.y),
+                        new_block.transform.position.z
                         );
-                    GameObject.Instantiate(block_prefab, new_position);
                 }
                 break;
             case enActions.Sorting:
