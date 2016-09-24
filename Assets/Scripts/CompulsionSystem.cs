@@ -102,20 +102,20 @@ public class CompulsionSystem : MonoBehaviour {
                 colors.Add(Color.yellow);
                 for(int i = 0; i < global_number; i++)
                 {
-                    GameObject new_block = GameObject.Instantiate(block_prefab);
-                    new_block.transform.position = new Vector3(
-                        Random.Range(0.0f, 1.0f) - 0.5f,
-                        new_block.transform.position.y + (i * block_size.y),
-                        new_block.transform.position.z
-                        );
-                    new_block.GetComponent<SpriteRenderer>().color = colors[Random.Range(0, colors.Count)];
+                    float x = Random.Range(0.0f, 1.0f) - 0.5f;
+                    float y = i * block_size.y;
+                    GameObject block = Spawn_Prefab(block_prefab, new Vector2(x, y));
+                    block.GetComponent<SpriteRenderer>().color = colors[Random.Range(0, colors.Count)];
                 }
                 break;
             case enActions.Counting:
                 //TODO: Spawn prefab/prompt for number entry
-                for(int i = 0; i < max_count; i++)
+                int effective_max = Random.Range((int)(max_count / 2), max_count);
+                for(int i = 0; i < effective_max; i++)
                 {
-                    
+                    float x = Random.Range(0.0f, 1.0f) - 0.5f;
+                    float y = i * block_size.y;
+                    Spawn_Prefab(block_prefab, new Vector2(x, y));
                 }
                 break;
             case enActions.Checking:
