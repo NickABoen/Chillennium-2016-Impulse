@@ -136,7 +136,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 0220942408a15904d8d66b0020972f4b, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.7607844, g: 0.7607844, b: 0.7607844, a: 1}
   m_FlipX: 0
   m_FlipY: 0
 --- !u!4 &360619878
@@ -335,3 +335,4 @@ MonoBehaviour:
   current_action: 1
   current_object: 1
   global_number: 4
+  max_count: 0
