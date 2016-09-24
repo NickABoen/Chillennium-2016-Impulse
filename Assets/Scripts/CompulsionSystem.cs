@@ -8,18 +8,18 @@ public class CompulsionSystem : MonoBehaviour {
     public enum enActions {None, Aligning, Sorting, Counting, Checking, Tapping, Touching, Multiples};
     public enum enObjects {None, Blocks, Circles, Switches, Buttons, Locks, Numbers};
 
-    public Object block_prefab, circle_prefab, switch_prefab, button_prefab, lock_prefab, number_prefab;
+    public GameObject block_prefab, circle_prefab, switch_prefab, button_prefab, lock_prefab, number_prefab;
 
     public enActions current_action;
     public enObjects current_object;
+    public int global_number;
 
     private List<enActions> action_set;
     private List<enObjects> object_set;
 
 	// Use this for initialization
 	void Awake() {
-        current_action = enActions.None;
-        current_object = enObjects.None;
+        global_number = 3;
 
         action_set = new List<enActions>();
         object_set = new List<enObjects>();
@@ -35,6 +35,7 @@ public class CompulsionSystem : MonoBehaviour {
 
     void Start()
     {
+        Build_Compulsion();
     }
 
 	// Update is called once per frame
@@ -53,30 +54,48 @@ public class CompulsionSystem : MonoBehaviour {
 
     public void Build_Compulsion()
     {
-        Pick_Random_State();
+        if(current_action == enActions.None || current_object == enObjects.None)
+            Pick_Random_State();
 
         switch (current_object)
         {
             case enObjects.Blocks:
+                Build_Blocks();
                 break;
             case enObjects.Circles:
+                Build_Circles();
                 break;
             case enObjects.Switches:
+                Build_Switches();
                 break;
             case enObjects.Buttons:
+                Build_Buttons();
                 break;
             case enObjects.Locks:
+                Build_Locks();
                 break;
             case enObjects.Numbers:
+                Build_Numbers();
                 break;
         }
     }
 
     public void Build_Blocks()
     {
+        Vector2 block_size = block_prefab.transform.localScale;
         switch (current_action)
         {
             case enActions.Aligning:
+                for(int i = 0; i < global_number; i++)
+                {
+                    Transform new_position = block_prefab.transform;
+                    new_position.position = new Vector3(
+                        Random.Range(0, 2 * global_number) - global_number,
+                        new_position.position.y + (i * block_size.y),
+                        new_position.position.z
+                        );
+                    GameObject.Instantiate(block_prefab, new_position);
+                }
                 break;
             case enActions.Sorting:
                 break;

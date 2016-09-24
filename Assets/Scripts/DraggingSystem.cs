@@ -4,16 +4,30 @@ using System.Collections;
 public class DraggingSystem : MonoBehaviour {
 
     public GameObject currently_dragging;
+    private GameObject previous_dragging;
+    private bool cancel_momentum = false;
 
 	// Use this for initialization
 	void Start () {
         currently_dragging = null;
 	}
+
+    void FixedUpdate()
+    {
+        if (cancel_momentum)
+        {
+            previous_dragging.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            previous_dragging.GetComponent<Rigidbody2D>().angularVelocity = 0;
+            cancel_momentum = false;
+        }
+    }
 	
 	// Update is called once per frame
 	void Update () {
         if (Input.GetMouseButtonUp(0))
         {
+            previous_dragging = currently_dragging;
+            cancel_momentum = true;
             currently_dragging = null;
         }
         else if (Input.GetMouseButtonDown(0))
