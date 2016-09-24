@@ -176,10 +176,17 @@ public class CompulsionSystem : MonoBehaviour {
         switch (current_action)
         {
             case enActions.Aligning:
-                break;
             case enActions.Sorting:
-                break;
             case enActions.Counting:
+                current_action = enActions.Counting;
+                current_action = enActions.Counting;
+                int count_amount = Random.Range(15, 30);
+                for(int i = 0; i < count_amount; i++)
+                {
+                    float x = Random.Range(0.0f, 4.0f) - 2.0f;
+                    float y = Random.Range(0.0f, 3.0f) - 2.0f;
+                    Spawn_Prefab(switch_prefab, new Vector2(x, y));
+                }
                 break;
             case enActions.Tapping:
                 break;

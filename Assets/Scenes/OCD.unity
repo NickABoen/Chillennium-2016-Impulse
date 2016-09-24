@@ -293,7 +293,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 1911926355}
   - 114: {fileID: 1911926354}
-  - 114: {fileID: 1911926356}
   - 114: {fileID: 1911926357}
   m_Layer: 0
   m_Name: Scripts
@@ -327,18 +326,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
---- !u!114 &1911926356
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1911926353}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1866e229e9026bc4685aa943516b8ac6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefab: {fileID: 1000010209004918, guid: 3d92c12ce37f95d4fbb2eac050f72ced, type: 2}
 --- !u!114 &1911926357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -363,6 +350,6 @@ MonoBehaviour:
   number_prefab: {fileID: 1000010209004918, guid: 3d92c12ce37f95d4fbb2eac050f72ced,
     type: 2}
   current_action: 3
-  current_object: 2
+  current_object: 3
   global_number: 4
   max_count: 36
