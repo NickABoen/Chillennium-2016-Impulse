@@ -173,9 +173,9 @@ public class CompulsionSystem : MonoBehaviour {
 
     public void Build_Switches()
     {
+        Vector2 switch_size = switch_prefab.transform.localScale;
         switch (current_action)
         {
-            case enActions.Aligning:
             case enActions.Sorting:
             case enActions.Counting:
                 {
@@ -191,11 +191,19 @@ public class CompulsionSystem : MonoBehaviour {
                     }
                 }
                 break;
+            case enActions.Aligning:
             case enActions.Tapping:
             case enActions.Touching:
-
-                break;
-            case enActions.Multiples:
+                int touch_amount_sq = Random.Range(3, 5);
+                for (int i = 0; i < touch_amount_sq; i++) {
+                    for(int j = 0; j < touch_amount_sq; j++)
+                    {
+                        float x = (i * (switch_size.x)) / 2;
+                        float y = ((j * (switch_size.y)) / 2) - 3;
+                        GameObject switch_component = Spawn_Prefab(switch_prefab, new Vector2(x, y));
+                        switch_component.GetComponent<SwitchComponent>().isOn = Random.value >= 0.5 ? true : false;
+                    }
+                }
                 break;
         }
     }
