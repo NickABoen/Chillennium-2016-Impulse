@@ -37,8 +37,11 @@ public class DraggingSystem : MonoBehaviour {
             if(hit.collider != null)
             {
                 Draggable draggable_component = hit.transform.gameObject.GetComponent<Draggable>();
-                if(draggable_component != null && draggable_component.enabled)
+                SwitchComponent switch_component = hit.transform.gameObject.GetComponent<SwitchComponent>();
+                if (draggable_component != null && draggable_component.enabled)
                     currently_dragging = hit.transform.gameObject;
+                else if (switch_component != null && switch_component.enabled)
+                    switch_component.Toggle();
             }
         }
 
