@@ -13,13 +13,15 @@ public class CompulsionSystem : MonoBehaviour {
     public enActions current_action;
     public enObjects current_object;
     public int global_number;
+    public int max_count;
 
     private List<enActions> action_set;
     private List<enObjects> object_set;
 
 	// Use this for initialization
 	void Awake() {
-        global_number = 3;
+        global_number = (global_number <= 0) ? 3 : global_number;
+        max_count = (max_count <= 0) ? 10 : max_count;
 
         action_set = new List<enActions>();
         object_set = new List<enObjects>();
@@ -88,17 +90,33 @@ public class CompulsionSystem : MonoBehaviour {
             case enActions.Aligning:
                 for(int i = 0; i < global_number; i++)
                 {
+                    float x = Random.Range(0.0f, 1.0f) - 0.5f;
+                    float y = i * block_size.y;
+                    Spawn_Prefab(block_prefab, new Vector2(x, y));
+                }
+                break;
+            case enActions.Sorting:
+                List<Color> colors = new List<Color>();
+                colors.Add(Color.cyan);
+                colors.Add(Color.magenta);
+                colors.Add(Color.yellow);
+                for(int i = 0; i < global_number; i++)
+                {
                     GameObject new_block = GameObject.Instantiate(block_prefab);
                     new_block.transform.position = new Vector3(
                         Random.Range(0.0f, 1.0f) - 0.5f,
                         new_block.transform.position.y + (i * block_size.y),
                         new_block.transform.position.z
                         );
+                    new_block.GetComponent<SpriteRenderer>().color = colors[Random.Range(0, colors.Count)];
                 }
                 break;
-            case enActions.Sorting:
-                break;
             case enActions.Counting:
+                //TODO: Spawn prefab/prompt for number entry
+                for(int i = 0; i < max_count; i++)
+                {
+                    
+                }
                 break;
             case enActions.Checking:
                 break;
@@ -216,4 +234,14 @@ public class CompulsionSystem : MonoBehaviour {
         }
     }
 
+    GameObject Spawn_Prefab(GameObject prefab, Vector2 position)
+    {
+        GameObject new_block = GameObject.Instantiate(block_prefab);
+        new_block.transform.position = new Vector3(new_block.transform.position.x + position.x, 
+                                                   new_block.transform.position.y + position.y, 
+                                                   new_block.transform.position.z);
+        return new_block;
+    }
+
 }
+
