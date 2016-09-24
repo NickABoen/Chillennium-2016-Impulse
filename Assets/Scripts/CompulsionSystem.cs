@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class CompulsionSystem : MonoBehaviour {
     private int action_size = 8;
     private int object_size = 7;
-    public enum enActions {None, Aligning, Sorting, Counting, Checking, Tapping, Touching, Multiples};
+    public enum enActions {None, Aligning, Sorting, Counting, Tapping, Touching, Multiples};
     public enum enObjects {None, Blocks, Circles, Switches, Buttons, Locks, Numbers};
 
     public GameObject block_prefab, circle_prefab, switch_prefab, button_prefab, lock_prefab, number_prefab;
@@ -109,6 +109,8 @@ public class CompulsionSystem : MonoBehaviour {
                 }
                 break;
             case enActions.Counting:
+            case enActions.Tapping:
+            case enActions.Touching:
                 //TODO: Spawn prefab/prompt for number entry
                 int effective_max = Random.Range((int)(max_count / 2), max_count);
                 for(int i = 0; i < effective_max; i++)
@@ -118,28 +120,29 @@ public class CompulsionSystem : MonoBehaviour {
                     Spawn_Prefab(block_prefab, new Vector2(x, y));
                 }
                 break;
-            case enActions.Checking:
-                break;
-            case enActions.Tapping:
-                break;
-            case enActions.Touching:
-                break;
-            case enActions.Multiples:
-                break;
         }
     }
 
     public void Build_Circles()
     {
+        Vector2 circle_size = circle_prefab.transform.localScale;
         switch (current_action)
         {
             case enActions.Aligning:
+                int dim_size = Random.Range(2, 5);
+                for(int i = 0; i < dim_size; i++)
+                {
+                    for(int j = 0; j < dim_size; j++)
+                    {
+                        float x = i * (circle_size.x) + (Random.value - 0.5f);
+                        float y = j * (circle_size.y) - 3 + (Random.value - 0.5f);
+                        Spawn_Prefab(circle_prefab, new Vector2(x, y));
+                    }
+                }
                 break;
             case enActions.Sorting:
                 break;
             case enActions.Counting:
-                break;
-            case enActions.Checking:
                 break;
             case enActions.Tapping:
                 break;
@@ -160,8 +163,6 @@ public class CompulsionSystem : MonoBehaviour {
                 break;
             case enActions.Counting:
                 break;
-            case enActions.Checking:
-                break;
             case enActions.Tapping:
                 break;
             case enActions.Touching:
@@ -180,8 +181,6 @@ public class CompulsionSystem : MonoBehaviour {
             case enActions.Sorting:
                 break;
             case enActions.Counting:
-                break;
-            case enActions.Checking:
                 break;
             case enActions.Tapping:
                 break;
@@ -202,8 +201,6 @@ public class CompulsionSystem : MonoBehaviour {
                 break;
             case enActions.Counting:
                 break;
-            case enActions.Checking:
-                break;
             case enActions.Tapping:
                 break;
             case enActions.Touching:
@@ -223,8 +220,6 @@ public class CompulsionSystem : MonoBehaviour {
                 break;
             case enActions.Counting:
                 break;
-            case enActions.Checking:
-                break;
             case enActions.Tapping:
                 break;
             case enActions.Touching:
@@ -236,7 +231,7 @@ public class CompulsionSystem : MonoBehaviour {
 
     GameObject Spawn_Prefab(GameObject prefab, Vector2 position)
     {
-        GameObject new_block = GameObject.Instantiate(block_prefab);
+        GameObject new_block = GameObject.Instantiate(prefab);
         new_block.transform.position = new Vector3(new_block.transform.position.x + position.x, 
                                                    new_block.transform.position.y + position.y, 
                                                    new_block.transform.position.z);

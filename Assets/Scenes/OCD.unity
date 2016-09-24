@@ -146,8 +146,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 360619876}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 30, y: 10, z: 1}
+  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalScale: {x: 26.810226, y: 10, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
@@ -165,6 +165,8 @@ GameObject:
   - 124: {fileID: 827347193}
   - 81: {fileID: 827347192}
   - 61: {fileID: 827347197}
+  - 61: {fileID: 827347199}
+  - 61: {fileID: 827347198}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -251,9 +253,37 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_Offset: {x: 0, y: -5.41}
+  m_Offset: {x: 0, y: -6}
   serializedVersion: 2
-  m_Size: {x: 30, y: 1}
+  m_Size: {x: 26.6, y: 2}
+--- !u!61 &827347198
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 827347191}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_Offset: {x: 14.44, y: 9.5}
+  serializedVersion: 2
+  m_Size: {x: 2, y: 30}
+--- !u!61 &827347199
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 827347191}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_Offset: {x: -14.4, y: 9.5}
+  serializedVersion: 2
+  m_Size: {x: 2, y: 30}
 --- !u!1 &1911926353
 GameObject:
   m_ObjectHideFlags: 0
@@ -335,4 +365,4 @@ MonoBehaviour:
   current_action: 3
   current_object: 1
   global_number: 4
-  max_count: 0
+  max_count: 36
