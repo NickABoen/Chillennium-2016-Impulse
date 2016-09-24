@@ -8,7 +8,7 @@ public class CompulsionSystem : MonoBehaviour {
     public enum enActions {None, Aligning, Sorting, Counting, Tapping, Touching, Multiples};
     public enum enObjects {None, Blocks, Circles, Switches, Buttons, Locks, Numbers};
 
-    public GameObject block_prefab, circle_prefab, switch_prefab, button_prefab, lock_prefab, number_prefab;
+    public GameObject block_prefab, circle_prefab, switch_prefab; //button_prefab, lock_prefab, number_prefab;
 
     public enActions current_action;
     public enObjects current_object;
