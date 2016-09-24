@@ -17,4 +17,9 @@ public class SwitchComponent : MonoBehaviour {
         SpriteRenderer renderer = gameObject.GetComponent<SpriteRenderer>();
         renderer.sprite = isOn ? OnSprite : OffSprite;
 	}
+
+    public void Toggle()
+    {
+        isOn = !isOn;
+    }
 }

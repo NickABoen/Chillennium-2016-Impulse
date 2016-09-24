@@ -126,10 +126,10 @@ public class CompulsionSystem : MonoBehaviour {
     public void Build_Circles()
     {
         Vector2 circle_size = circle_prefab.transform.localScale;
+        int dim_size = Random.Range(2, 5);
         switch (current_action)
         {
             case enActions.Aligning:
-                int dim_size = Random.Range(2, 5);
                 for(int i = 0; i < dim_size; i++)
                 {
                     for(int j = 0; j < dim_size; j++)
@@ -141,14 +141,32 @@ public class CompulsionSystem : MonoBehaviour {
                 }
                 break;
             case enActions.Sorting:
+                List<Color> colors = new List<Color>();
+                colors.Add(Color.cyan);
+                colors.Add(Color.magenta);
+                colors.Add(Color.yellow);
+                dim_size = Mathf.Clamp(dim_size, 2, 4);
+                for(int i = 0; i < dim_size; i++)
+                {
+                    for(int j = 0; j < dim_size; j++)
+                    {
+                        float x = i * (circle_size.x);
+                        float y = j * (circle_size.y)-3;
+                        GameObject circle = Spawn_Prefab(circle_prefab, new Vector2(x, y));
+                        circle.GetComponent<SpriteRenderer>().color = colors[Random.Range(0, 3)];
+                    }
+                }
                 break;
             case enActions.Counting:
-                break;
             case enActions.Tapping:
-                break;
             case enActions.Touching:
-                break;
-            case enActions.Multiples:
+                int count_amount = Random.Range(15, 30);
+                for(int i = 0; i < count_amount; i++)
+                {
+                    float x = Random.Range(0.0f, 4.0f) - 2.0f;
+                    float y = Random.Range(0.0f, 3.0f) - 2.0f;
+                    Spawn_Prefab(circle_prefab, new Vector2(x, y));
+                }
                 break;
         }
     }

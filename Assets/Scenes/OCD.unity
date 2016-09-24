@@ -362,7 +362,7 @@ MonoBehaviour:
     type: 2}
   number_prefab: {fileID: 1000010209004918, guid: 3d92c12ce37f95d4fbb2eac050f72ced,
     type: 2}
-  current_action: 3
-  current_object: 1
+  current_action: 2
+  current_object: 2
   global_number: 4
   max_count: 36
