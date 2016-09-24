@@ -90,7 +90,6 @@ public class CompulsionSystem : MonoBehaviour {
                 {
                     GameObject new_block = GameObject.Instantiate(block_prefab);
                     new_block.transform.position = new Vector3(
-                        //Random.Range(0, 2 * global_number) - global_number,
                         Random.Range(0.0f, 1.0f) - 0.5f,
                         new_block.transform.position.y + (i * block_size.y),
                         new_block.transform.position.z
