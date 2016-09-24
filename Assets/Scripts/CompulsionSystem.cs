@@ -54,7 +54,7 @@ public class CompulsionSystem : MonoBehaviour {
         object_set.Add(current_object);
     }
 
-    public void Build_Compulsion()
+    public List<GameObject> Build_Compulsion()
     {
         if(current_action == enActions.None || current_object == enObjects.None)
             Pick_Random_State();
@@ -62,28 +62,24 @@ public class CompulsionSystem : MonoBehaviour {
         switch (current_object)
         {
             case enObjects.Blocks:
-                Build_Blocks();
-                break;
+                return Build_Blocks();
             case enObjects.Circles:
-                Build_Circles();
-                break;
+                return Build_Circles();
             case enObjects.Switches:
-                Build_Switches();
-                break;
+                return Build_Switches();
             case enObjects.Buttons:
-                Build_Buttons();
-                break;
+                return Build_Buttons();
             case enObjects.Locks:
-                Build_Locks();
-                break;
+                return Build_Locks();
             case enObjects.Numbers:
-                Build_Numbers();
-                break;
+                return Build_Numbers();
         }
+        return null;
     }
 
-    public void Build_Blocks()
+    public List<GameObject> Build_Blocks()
     {
+        List<GameObject> objects = new List<GameObject>();
         Vector2 block_size = block_prefab.transform.localScale;
         switch (current_action)
         {
@@ -92,7 +88,7 @@ public class CompulsionSystem : MonoBehaviour {
                 {
                     float x = Random.Range(0.0f, 1.0f) - 0.5f;
                     float y = i * block_size.y;
-                    Spawn_Prefab(block_prefab, new Vector2(x, y));
+                    objects.Add(Spawn_Prefab(block_prefab, new Vector2(x, y)));
                 }
                 break;
             case enActions.Sorting:
@@ -106,6 +102,7 @@ public class CompulsionSystem : MonoBehaviour {
                     float y = i * block_size.y;
                     GameObject block = Spawn_Prefab(block_prefab, new Vector2(x, y));
                     block.GetComponent<SpriteRenderer>().color = colors[Random.Range(0, colors.Count)];
+                    objects.Add(block);
                 }
                 break;
             case enActions.Counting:
@@ -117,14 +114,17 @@ public class CompulsionSystem : MonoBehaviour {
                 {
                     float x = Random.Range(0.0f, 1.0f) - 0.5f;
                     float y = i * block_size.y;
-                    Spawn_Prefab(block_prefab, new Vector2(x, y));
+                    objects.Add(Spawn_Prefab(block_prefab, new Vector2(x, y)));
                 }
                 break;
         }
+
+        return objects;
     }
 
-    public void Build_Circles()
+    public List<GameObject> Build_Circles()
     {
+        List<GameObject> objects = new List<GameObject>();
         Vector2 circle_size = circle_prefab.transform.localScale;
         int dim_size = Random.Range(2, 5);
         switch (current_action)
@@ -136,7 +136,7 @@ public class CompulsionSystem : MonoBehaviour {
                     {
                         float x = i * (circle_size.x) + (Random.value - 0.5f);
                         float y = j * (circle_size.y) - 3 + (Random.value - 0.5f);
-                        Spawn_Prefab(circle_prefab, new Vector2(x, y));
+                        objects.Add(Spawn_Prefab(circle_prefab, new Vector2(x, y)));
                     }
                 }
                 break;
@@ -154,6 +154,7 @@ public class CompulsionSystem : MonoBehaviour {
                         float y = j * (circle_size.y)-3;
                         GameObject circle = Spawn_Prefab(circle_prefab, new Vector2(x, y));
                         circle.GetComponent<SpriteRenderer>().color = colors[Random.Range(0, 3)];
+                        objects.Add(circle);
                     }
                 }
                 break;
@@ -165,14 +166,16 @@ public class CompulsionSystem : MonoBehaviour {
                 {
                     float x = Random.Range(0.0f, 4.0f) - 2.0f;
                     float y = Random.Range(0.0f, 3.0f) - 2.0f;
-                    Spawn_Prefab(circle_prefab, new Vector2(x, y));
+                    objects.Add(Spawn_Prefab(circle_prefab, new Vector2(x, y)));
                 }
                 break;
         }
+        return objects;
     }
 
-    public void Build_Switches()
+    public List<GameObject> Build_Switches()
     {
+        List<GameObject> objects = new List<GameObject>();
         Vector2 switch_size = switch_prefab.transform.localScale;
         switch (current_action)
         {
@@ -188,6 +191,7 @@ public class CompulsionSystem : MonoBehaviour {
                         float y = Random.Range(0.0f, 3.0f) - 2.0f;
                         GameObject switch_component = Spawn_Prefab(switch_prefab, new Vector2(x, y));
                         switch_component.GetComponent<SwitchComponent>().isOn = Random.value >= 0.5 ? true : false;
+                        objects.Add(switch_component);
                     }
                 }
                 break;
@@ -202,14 +206,17 @@ public class CompulsionSystem : MonoBehaviour {
                         float y = ((j * (switch_size.y)) / 2) - 3;
                         GameObject switch_component = Spawn_Prefab(switch_prefab, new Vector2(x, y));
                         switch_component.GetComponent<SwitchComponent>().isOn = Random.value >= 0.5 ? true : false;
+                        objects.Add(switch_component);
                     }
                 }
                 break;
         }
+        return objects;
     }
 
-    public void Build_Buttons()
+    public List<GameObject> Build_Buttons()
     {
+        List<GameObject> objects = new List<GameObject>();
         switch (current_action)
         {
             case enActions.Aligning:
@@ -225,10 +232,12 @@ public class CompulsionSystem : MonoBehaviour {
             case enActions.Multiples:
                 break;
         }
+        return objects;
     }
 
-    public void Build_Locks()
+    public List<GameObject> Build_Locks()
     {
+        List<GameObject> objects = new List<GameObject>();
         switch (current_action)
         {
             case enActions.Aligning:
@@ -244,10 +253,12 @@ public class CompulsionSystem : MonoBehaviour {
             case enActions.Multiples:
                 break;
         }
+        return objects;
     }
 
-    public void Build_Numbers()
+    public List<GameObject> Build_Numbers()
     {
+        List<GameObject> objects = new List<GameObject>();
         switch (current_action)
         {
             case enActions.Aligning:
@@ -263,6 +274,7 @@ public class CompulsionSystem : MonoBehaviour {
             case enActions.Multiples:
                 break;
         }
+        return objects;
     }
 
     GameObject Spawn_Prefab(GameObject prefab, Vector2 position)

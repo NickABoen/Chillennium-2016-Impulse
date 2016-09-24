@@ -7,6 +7,7 @@ public class AnxietySystem : MonoBehaviour {
     //Even though the game rewards the player for completing puzzles, it should be obvious that a 
     //win condition is not being approached.
 
+    public int relief_time;
     
 	// Use this for initialization
 	void Start () {
