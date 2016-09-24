@@ -32,20 +32,170 @@ public class CompulsionSystem : MonoBehaviour {
             object_set.Add((enObjects)i);
         }
 	}
-	
+
+    void Start()
+    {
+    }
+
 	// Update is called once per frame
 	void Update () {
-        Random rng = new Random();
-	    if(current_action == enActions.None)
-        {
-            current_action = action_set[Random.Range(0,action_set.Count)];
-            action_set.Add(current_action);
-        }
-
-        if(current_object == enObjects.None)
-        {
-            current_object = object_set[Random.Range(0,object_set.Count)];
-            object_set.Add(current_object);
-        }
 	}
+
+    void Pick_Random_State()
+    {
+        current_action = action_set[Random.Range(0, action_set.Count)];
+        current_object = object_set[Random.Range(0, object_set.Count)];
+
+        //Increase random weights
+        action_set.Add(current_action);
+        object_set.Add(current_object);
+    }
+
+    public void Build_Compulsion()
+    {
+        Pick_Random_State();
+
+        switch (current_object)
+        {
+            case enObjects.Blocks:
+                break;
+            case enObjects.Circles:
+                break;
+            case enObjects.Switches:
+                break;
+            case enObjects.Buttons:
+                break;
+            case enObjects.Locks:
+                break;
+            case enObjects.Numbers:
+                break;
+        }
+    }
+
+    public void Build_Blocks()
+    {
+        switch (current_action)
+        {
+            case enActions.Aligning:
+                break;
+            case enActions.Sorting:
+                break;
+            case enActions.Counting:
+                break;
+            case enActions.Checking:
+                break;
+            case enActions.Tapping:
+                break;
+            case enActions.Touching:
+                break;
+            case enActions.Multiples:
+                break;
+        }
+    }
+
+    public void Build_Circles()
+    {
+        switch (current_action)
+        {
+            case enActions.Aligning:
+                break;
+            case enActions.Sorting:
+                break;
+            case enActions.Counting:
+                break;
+            case enActions.Checking:
+                break;
+            case enActions.Tapping:
+                break;
+            case enActions.Touching:
+                break;
+            case enActions.Multiples:
+                break;
+        }
+    }
+
+    public void Build_Switches()
+    {
+        switch (current_action)
+        {
+            case enActions.Aligning:
+                break;
+            case enActions.Sorting:
+                break;
+            case enActions.Counting:
+                break;
+            case enActions.Checking:
+                break;
+            case enActions.Tapping:
+                break;
+            case enActions.Touching:
+                break;
+            case enActions.Multiples:
+                break;
+        }
+    }
+
+    public void Build_Buttons()
+    {
+        switch (current_action)
+        {
+            case enActions.Aligning:
+                break;
+            case enActions.Sorting:
+                break;
+            case enActions.Counting:
+                break;
+            case enActions.Checking:
+                break;
+            case enActions.Tapping:
+                break;
+            case enActions.Touching:
+                break;
+            case enActions.Multiples:
+                break;
+        }
+    }
+
+    public void Build_Locks()
+    {
+        switch (current_action)
+        {
+            case enActions.Aligning:
+                break;
+            case enActions.Sorting:
+                break;
+            case enActions.Counting:
+                break;
+            case enActions.Checking:
+                break;
+            case enActions.Tapping:
+                break;
+            case enActions.Touching:
+                break;
+            case enActions.Multiples:
+                break;
+        }
+    }
+
+    public void Build_Numbers()
+    {
+        switch (current_action)
+        {
+            case enActions.Aligning:
+                break;
+            case enActions.Sorting:
+                break;
+            case enActions.Counting:
+                break;
+            case enActions.Checking:
+                break;
+            case enActions.Tapping:
+                break;
+            case enActions.Touching:
+                break;
+            case enActions.Multiples:
+                break;
+        }
+    }
+
 }
