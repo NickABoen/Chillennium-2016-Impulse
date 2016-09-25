@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class AnxietySystem : MonoBehaviour {
 
@@ -12,11 +13,11 @@ public class AnxietySystem : MonoBehaviour {
     public float reduce_rate;
     public float raise_rate;
 
-    private float relief_time_left;
+    public float relief_time_left;
     
 	// Use this for initialization
 	void Start () {
-	
+        relief_time_left = relief_time;
 	}
 	
 	// Update is called once per frame
@@ -34,8 +35,31 @@ public class AnxietySystem : MonoBehaviour {
         //Debug.Log("Raising Anxiety");
     }
 
-    public bool TickRelief()
+    public bool TickRelief(List<GameObject> object_list = null)
     {
+        relief_time_left -= Time.deltaTime;
+
+        foreach(GameObject gob in object_list)
+        {
+            SpriteRenderer renderer = gob.transform.GetComponent<SpriteRenderer>();
+            if (renderer == null) continue;
+            if(relief_time_left >= (relief_time / 2))
+            {
+                Color newAlpha = renderer.color;
+                newAlpha.a = (relief_time_left - (relief_time/2)) / (relief_time/2);
+                renderer.color = newAlpha;
+            }
+            else
+            {
+                renderer.enabled = false;
+            }
+        }
+
+        if(relief_time_left <= 0.0f)
+        {
+            Reset_Relief();
+            return true;
+        }
         return false;
     }
 

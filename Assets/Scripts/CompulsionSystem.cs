@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 
 public class CompulsionSystem : MonoBehaviour {
-    private int action_size = 8;
-    private int object_size = 7;
-    public enum enActions {None, Aligning, Sorting, Counting, Tapping, Touching, Multiples};
-    public enum enObjects {None, Blocks, Circles, Switches, Buttons, Locks, Numbers};
+    private int action_size = 5;
+    private int object_size = 4;
+    public enum enActions {None, Aligning, Sorting, Tapping, Touching};
+    public enum enObjects {None, Blocks, Circles, Switches};
     public enum enCycleState { Obsession, Anxiety, Compulsion, Relief };
 
     public GameObject block_prefab, circle_prefab, switch_prefab; //button_prefab, lock_prefab, number_prefab;
@@ -93,7 +93,7 @@ public class CompulsionSystem : MonoBehaviour {
                 }
                 break;
             case enCycleState.Relief:
-                if (anxiety_system.TickRelief())
+                if (anxiety_system.TickRelief(object_list))
                 {
                     ocd_cycle = enCycleState.Obsession;
                 }
@@ -113,8 +113,7 @@ public class CompulsionSystem : MonoBehaviour {
 
     public List<GameObject> Build_Compulsion()
     {
-        if(current_action == enActions.None || current_object == enObjects.None)
-            Pick_Random_State();
+        Pick_Random_State();
 
         switch (current_object)
         {
@@ -124,12 +123,6 @@ public class CompulsionSystem : MonoBehaviour {
                 return Build_Circles();
             case enObjects.Switches:
                 return Build_Switches();
-            case enObjects.Buttons:
-                return Build_Buttons();
-            case enObjects.Locks:
-                return Build_Locks();
-            case enObjects.Numbers:
-                return Build_Numbers();
         }
         return null;
     }
@@ -266,10 +259,7 @@ public class CompulsionSystem : MonoBehaviour {
         switch (current_action)
         {
             case enActions.Sorting:
-            case enActions.Counting:
                 {
-                    current_action = enActions.Counting;
-                    current_action = enActions.Counting;
                     int count_amount = Random.Range(15, 30);
                     for (int i = 0; i < count_amount; i++)
                     {
@@ -344,13 +334,9 @@ public class CompulsionSystem : MonoBehaviour {
                 break;
             case enActions.Sorting:
                 break;
-            case enActions.Counting:
-                break;
             case enActions.Tapping:
                 break;
             case enActions.Touching:
-                break;
-            case enActions.Multiples:
                 break;
         }
         return objects;
@@ -365,13 +351,9 @@ public class CompulsionSystem : MonoBehaviour {
                 break;
             case enActions.Sorting:
                 break;
-            case enActions.Counting:
-                break;
             case enActions.Tapping:
                 break;
             case enActions.Touching:
-                break;
-            case enActions.Multiples:
                 break;
         }
         return objects;
@@ -386,13 +368,9 @@ public class CompulsionSystem : MonoBehaviour {
                 break;
             case enActions.Sorting:
                 break;
-            case enActions.Counting:
-                break;
             case enActions.Tapping:
                 break;
             case enActions.Touching:
-                break;
-            case enActions.Multiples:
                 break;
         }
         return objects;
@@ -400,15 +378,36 @@ public class CompulsionSystem : MonoBehaviour {
 
     public bool CheckSolution()
     {
-        //return false;
-        //return CheckTouchOrTapped();
-        bool value = CheckTouchOrTapped();
-        if (value)
-            Debug.Log("Valid");
-        else
-            Debug.Log("Invalid");
+        switch (current_action)
+        {
+            case enActions.Aligning:
+                switch (current_object)
+                {
+                    case enObjects.Blocks:
+                        return CheckVerticalValidity();
+                    case enObjects.Circles:
+                        return CheckSquare();
+                    case enObjects.Switches:
+                        return CheckSwitch();
+                }
+                break;
+            case enActions.Sorting:
+                switch (current_object)
+                {
+                    case enObjects.Blocks:
+                        return CheckVerticalValidity();
+                    case enObjects.Circles:
+                        return (CheckHorizontalValidity() || CheckVerticalValidity());
+                    case enObjects.Switches:
+                        return CheckSwitch();
+                }
+                break;
+            case enActions.Tapping:
+            case enActions.Touching:
+                return CheckTouchOrTapped();
+        }
 
-        return value;
+        return false;
     }
 
     bool CheckVerticalValidity()
@@ -558,12 +557,10 @@ public class CompulsionSystem : MonoBehaviour {
 
         if (acceptable_width < width || acceptable_height < height)
         {
-            Debug.Log("Invalid square");
             return false;
         }
-        Debug.Log("Valid square");
 
-        return false;
+        return true;
     }
     bool CheckSwitch()
     {
