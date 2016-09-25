@@ -724,7 +724,7 @@ MonoBehaviour:
   max_speed: 5
   percent_to_spawn: 5
   step_moderate: 7
-  step_high: 20
+  step_high: 15
   step_very_high: 30
   percent_of_general_word: 0
   percent_of_negative_word: 0
@@ -742,8 +742,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ambiance: {fileID: 1788580546}
   eerie: {fileID: 206338021}
+  heart_beat: {fileID: 8300000, guid: d28ca88c04fa6a44996af42659b1b786, type: 3}
   fade_factor: 1
   current_state: 0
+  beat_time: 1
+  phase_time: 8
+  played_beat: 0
+  beat_factor: 4
 --- !u!1001 &2128621414
 Prefab:
   m_ObjectHideFlags: 0

@@ -88,6 +88,9 @@ MonoBehaviour:
   isOn: 0
   OnSprite: {fileID: 21300264, guid: 49498c12550b23d40b6940b033c7ab4f, type: 3}
   OffSprite: {fileID: 21300266, guid: 49498c12550b23d40b6940b033c7ab4f, type: 3}
+  clip_1: {fileID: 8300000, guid: 7b34e44b92a0e2e4d9ff80ed0b0ad477, type: 3}
+  clip_2: {fileID: 8300000, guid: cfe12b9412ba4254e944c077f8015ee5, type: 3}
+  clip_3: {fileID: 8300000, guid: 2d43b92fdc12ce74abed75f9c0c7fa46, type: 3}
 --- !u!212 &212000013172746844
 SpriteRenderer:
   m_ObjectHideFlags: 1

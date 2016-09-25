@@ -44,7 +44,8 @@ public class AnxietySystem : MonoBehaviour {
 
     void CalculateAnxiety()
     {
-        anxiety_buildup = Mathf.Clamp(((float)1 / 60) * (run_time * run_time),0,100);// (1/60) * x^2
+        run_time = Mathf.Min(run_time, 70);
+        anxiety_buildup = Mathf.Clamp(((float)1 / 60) * (run_time * run_time),0,50);// (1/60) * x^2
     }
 
     public bool TickRelief(List<GameObject> object_list = null)

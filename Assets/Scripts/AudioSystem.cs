@@ -4,6 +4,7 @@ using System.Collections;
 public class AudioSystem : MonoBehaviour {
 
     public AudioSource ambiance, eerie;
+    public AudioClip heart_beat;
     public float fade_factor = 1;
 
     public enum AudioState { Ambiance, FadeToNothing, Nothing, FadeToEerie, Eerie}
@@ -40,7 +41,38 @@ public class AudioSystem : MonoBehaviour {
                 if (CrossFadeStep(null, eerie)) current_state = AudioState.Eerie;
                 break;
         }
+        if (aggressiveness == MessageSystem.enAggressiveness.VeryHigh) {
+            beat_factor = (gameObject.GetComponent<AnxietySystem>().anxiety_buildup - gameObject.GetComponent<MessageSystem>().step_very_high) / 2;
+            PlayHeartBeat();
+        }
 	}
+
+    public float beat_time; //between two quick beats
+    public float phase_time; //between start of two double beats
+    float beat_time_left, phase_time_left;
+    public bool played_beat = false;
+    public float beat_factor;
+    void PlayHeartBeat()
+    {
+        float phase_step = beat_factor * Time.deltaTime;
+
+        beat_time_left = Mathf.Max(beat_time_left - phase_step, 0);
+        phase_time_left = Mathf.Max(phase_time_left - phase_step, 0);
+        
+        if(beat_time_left == 0 && !played_beat)
+        {
+            played_beat = true;
+            AudioSource.PlayClipAtPoint(heart_beat, Camera.main.transform.position);
+        }
+
+        if(phase_time_left == 0)
+        {
+            phase_time_left = phase_time;
+            beat_time_left = beat_time;
+            played_beat = false;
+            AudioSource.PlayClipAtPoint(heart_beat, Camera.main.transform.position);
+        }
+    }
 
     bool CrossFadeStep(AudioSource fade_out, AudioSource fade_in)
     {
