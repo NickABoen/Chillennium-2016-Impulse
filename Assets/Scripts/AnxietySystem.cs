@@ -18,4 +18,19 @@ public class AnxietySystem : MonoBehaviour {
 	void Update () {
 	
 	}
+
+    public void ReduceAnxiety()
+    {
+        //Debug.Log("Reducing Anxiety");
+    }
+
+    public void RaiseAnxiety(bool solved)
+    {
+        //Debug.Log("Raising Anxiety");
+    }
+
+    public bool TickRelief()
+    {
+        return false;
+    }
 }

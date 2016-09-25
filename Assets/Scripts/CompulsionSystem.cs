@@ -1,22 +1,28 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class CompulsionSystem : MonoBehaviour {
     private int action_size = 8;
     private int object_size = 7;
     public enum enActions {None, Aligning, Sorting, Counting, Tapping, Touching, Multiples};
     public enum enObjects {None, Blocks, Circles, Switches, Buttons, Locks, Numbers};
+    public enum enCycleState { Obsession, Anxiety, Compulsion, Relief };
 
     public GameObject block_prefab, circle_prefab, switch_prefab; //button_prefab, lock_prefab, number_prefab;
 
     public enActions current_action;
     public enObjects current_object;
+    public enCycleState ocd_cycle;
     public int global_number;
     public int max_count;
+    public double vertical_column_error_threshold;
 
     private List<enActions> action_set;
     private List<enObjects> object_set;
+    private List<GameObject> object_list;
+    private bool isPuzzleComplete = false;
 
 	// Use this for initialization
 	void Awake() {
@@ -37,11 +43,62 @@ public class CompulsionSystem : MonoBehaviour {
 
     void Start()
     {
-        Build_Compulsion();
+        ocd_cycle = enCycleState.Obsession;
+    }
+
+    void FixedUpdate()
+    {
+        switch (ocd_cycle)
+        {
+            case enCycleState.Compulsion:
+                isPuzzleComplete = CheckSolution();
+                break;
+        }
     }
 
 	// Update is called once per frame
 	void Update () {
+        DraggingSystem input_system = gameObject.GetComponent<DraggingSystem>();
+        AnxietySystem anxiety_system = gameObject.GetComponent<AnxietySystem>();
+        switch (ocd_cycle)
+        {
+            case enCycleState.Obsession:
+                if(object_list != null)
+                {
+                    foreach(GameObject gob in object_list)
+                    {
+                        Destroy(gob);
+                    }
+                }
+                object_list = Build_Compulsion();
+                input_system.ResetInteracted();
+                ocd_cycle = enCycleState.Anxiety;
+                break;
+            case enCycleState.Anxiety:
+                if (!input_system.PlayerHasInteracted())
+                {
+                    anxiety_system.ReduceAnxiety();
+                }
+                else
+                {
+                    ocd_cycle = enCycleState.Compulsion;
+                }
+                break;
+            case enCycleState.Compulsion:
+                anxiety_system.RaiseAnxiety(isPuzzleComplete);
+                //TODO: Needs a way of rolling over to relief with a UI element
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    ocd_cycle = enCycleState.Relief;
+                }
+                break;
+            case enCycleState.Relief:
+                if (anxiety_system.TickRelief())
+                {
+                    ocd_cycle = enCycleState.Obsession;
+                }
+                break;
+        }
 	}
 
     void Pick_Random_State()
@@ -105,7 +162,7 @@ public class CompulsionSystem : MonoBehaviour {
                     objects.Add(block);
                 }
                 break;
-            case enActions.Counting:
+            //case enActions.Counting:
             case enActions.Tapping:
             case enActions.Touching:
                 //TODO: Spawn prefab/prompt for number entry
@@ -275,6 +332,58 @@ public class CompulsionSystem : MonoBehaviour {
                 break;
         }
         return objects;
+    }
+
+    public bool CheckSolution()
+    {
+        //return false;
+        return CheckVerticalValidity(1);
+    }
+
+    bool CheckVerticalValidity(int max_column_count)
+    {
+        List<GameObject> x_sorted;
+        if (object_list != null && object_list.Count >= 0) {
+            x_sorted = object_list.OrderBy(x => x.transform.position.x).ToList();
+        }
+        else
+        {
+            return false;
+        }
+        int column_count = 0;
+        float min_y = float.MaxValue;
+        GameObject previous = null;
+        foreach(GameObject gob in x_sorted)
+        {
+            if (previous == null)
+            {
+                column_count++;
+                previous = gob;
+                continue;
+            }
+            else {
+                float gob_x = gob.transform.position.x;
+                float prev_x = previous.transform.position.x;
+
+                if (Mathf.Abs(gob_x - prev_x) > vertical_column_error_threshold)
+                {
+                    //Is a new column
+                    column_count++;
+                }
+            }
+
+            min_y = min_y < gob.transform.position.y ? min_y : gob.transform.position.y;
+
+            previous = gob;
+        }
+        //One cube should be on the ground
+        if(column_count > max_column_count || min_y > (-4.5 + vertical_column_error_threshold))
+        {
+            return false; //too high
+        }
+        Debug.Log("column count = " + column_count);
+
+        return false;
     }
 
     GameObject Spawn_Prefab(GameObject prefab, Vector2 position)

@@ -4,6 +4,7 @@ using System.Collections;
 public class DraggingSystem : MonoBehaviour {
 
     public GameObject currently_dragging;
+    private bool has_interacted = false;
     private GameObject previous_dragging;
     private bool cancel_momentum = false;
 
@@ -39,9 +40,15 @@ public class DraggingSystem : MonoBehaviour {
                 Draggable draggable_component = hit.transform.gameObject.GetComponent<Draggable>();
                 SwitchComponent switch_component = hit.transform.gameObject.GetComponent<SwitchComponent>();
                 if (draggable_component != null && draggable_component.enabled)
+                {
                     currently_dragging = hit.transform.gameObject;
+                    has_interacted = true;
+                }
                 else if (switch_component != null && switch_component.enabled)
+                {
                     switch_component.Toggle();
+                    has_interacted = true;
+                }
             }
         }
 
@@ -52,4 +59,14 @@ public class DraggingSystem : MonoBehaviour {
             currently_dragging.transform.position = newPoint;
         }
 	}
+
+    public bool PlayerHasInteracted()
+    {
+        return has_interacted;
+    }
+
+    public void ResetInteracted()
+    {
+        has_interacted = false;
+    }
 }

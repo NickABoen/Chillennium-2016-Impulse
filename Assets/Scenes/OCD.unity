@@ -167,7 +167,7 @@ GameObject:
   - 61: {fileID: 827347197}
   - 61: {fileID: 827347199}
   - 61: {fileID: 827347198}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -293,6 +293,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1911926355}
   - 114: {fileID: 1911926354}
+  - 114: {fileID: 1911926356}
   - 114: {fileID: 1911926357}
   m_Layer: 0
   m_Name: Scripts
@@ -326,6 +327,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
+--- !u!114 &1911926356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1911926353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b26caa4895b8d74bbc744a47eb4242c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  relief_time: 0
 --- !u!114 &1911926357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -343,13 +356,8 @@ MonoBehaviour:
     type: 2}
   switch_prefab: {fileID: 1000010812597506, guid: 8310911c5f1b5224693e986c4e206139,
     type: 2}
-  button_prefab: {fileID: 1000010812597506, guid: 8310911c5f1b5224693e986c4e206139,
-    type: 2}
-  lock_prefab: {fileID: 1000010013423052, guid: 697f73e234ff67c4f95f71a04734ed11,
-    type: 2}
-  number_prefab: {fileID: 1000010209004918, guid: 3d92c12ce37f95d4fbb2eac050f72ced,
-    type: 2}
   current_action: 1
-  current_object: 3
+  current_object: 1
+  ocd_cycle: 0
   global_number: 4
   max_count: 36
