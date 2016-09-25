@@ -397,7 +397,7 @@ public class CompulsionSystem : MonoBehaviour {
                     case enObjects.Blocks:
                         return CheckVerticalValidity();
                     case enObjects.Circles:
-                        return (CheckHorizontalValidity() || CheckVerticalValidity());
+                        return (CheckHorizontalValidity() || CheckVerticalValidity(false));
                     case enObjects.Switches:
                         return CheckSwitch();
                 }
@@ -410,7 +410,7 @@ public class CompulsionSystem : MonoBehaviour {
         return false;
     }
 
-    bool CheckVerticalValidity()
+    bool CheckVerticalValidity(bool has_gravity = true)
     {
         List<GameObject> x_sorted;
         List<Color> unique_colors = new List<Color>();
@@ -465,7 +465,7 @@ public class CompulsionSystem : MonoBehaviour {
         int max_column_count = unique_colors.Count;
 
         //One cube should be on the ground
-        if(!colorCorrect || column_count > max_column_count || min_y > (-4.5 + margin_of_error_threshold))
+        if(!colorCorrect || column_count > max_column_count || (has_gravity && min_y > (-4.5 + margin_of_error_threshold)))
         {
             Debug.Log("invalid");
             return false; //too high

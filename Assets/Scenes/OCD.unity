@@ -194,6 +194,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 212000013502104270, guid: d70936047d8bcfd449439631e97784db,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d70936047d8bcfd449439631e97784db, type: 2}
   m_IsPrefabParent: 0
@@ -340,6 +345,7 @@ GameObject:
   - 114: {fileID: 1911926354}
   - 114: {fileID: 1911926356}
   - 114: {fileID: 1911926357}
+  - 114: {fileID: 1911926358}
   m_Layer: 0
   m_Name: Scripts
   m_TagString: Untagged
@@ -383,10 +389,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b26caa4895b8d74bbc744a47eb4242c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  relief_time: 2000
+  relief_time: 2
   anxiety_buildup: 0
+  run_time: 10
   reduce_rate: 0
   raise_rate: 0
+  relief_time_left: 0
 --- !u!114 &1911926357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -404,9 +412,37 @@ MonoBehaviour:
     type: 2}
   switch_prefab: {fileID: 1000010812597506, guid: 8310911c5f1b5224693e986c4e206139,
     type: 2}
-  current_action: 5
-  current_object: 3
+  current_action: 2
+  current_object: 2
   ocd_cycle: 0
   global_number: 4
   max_count: 36
   margin_of_error_threshold: 0.05
+--- !u!114 &1911926358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1911926353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e58884eb2e9030b4685bc13c80afd897, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text_prefab: {fileID: 1000010125960068, guid: c055cef256023274e9970c860b559b4e,
+    type: 2}
+  random_spawn_range: 0
+  minimum_time_between_spawns: 0
+  max_spawn_percent: 0
+  max_word_speed: 0
+  max_degree_trajectory_rotation: 0
+  max_percent_to_bold: 0
+  max_percent_to_italicize: 0
+  percent_to_spawn: 0
+  current_trajectory_rotation: 0
+  percent_to_bold: 0
+  percent_to_italicize: 0
+  current_word_speed: 0
+  percent_of_general_word: 0
+  percent_of_negative_word: 0
+  percent_of_helpless_word: 0
