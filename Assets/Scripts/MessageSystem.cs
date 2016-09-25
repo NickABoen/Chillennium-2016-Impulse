@@ -18,7 +18,7 @@ public class MessageSystem : MonoBehaviour {
 
     public float percent_of_general_word, percent_of_negative_word, percent_of_helpless_word;
     List<string> general_word_list = new List<string> { "SILLY", "NO", "MOVE ON", "JUST STOP", "WHY" };
-    List<string> instructional_word_list = new List<string> { "STRAIGHTER", "CROOKED", "BY COLOR", "GRID", "TOUCH", "TAP", "STACK" };
+    //List<string> instructional_word_list = new List<string> { "STRAIGHTER", "CROOKED", "BY COLOR", "GRID", "TOUCH", "TAP", "STACK" };
     List<string> negative_word_list = new List<string> { "EW", "STOP", "WRONG", "ALWAYS WRONG", "BAD", "DUMB", "STUPID", "WONT STOP", "CANT STOP", "PLEASE STOP", "FILTHY" };
     List<string> helpless_word_list = new List<string> { "please", "...", "just", "so tired", "go away", "leave me alone", "wait", "help" };
 
