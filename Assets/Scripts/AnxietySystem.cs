@@ -49,7 +49,8 @@ public class AnxietySystem : MonoBehaviour {
 
     public bool TickRelief(List<GameObject> object_list = null)
     {
-        relief_time_left -= Time.deltaTime;
+        MessageSystem.enAggressiveness aggressiveness = gameObject.GetComponent<MessageSystem>().aggressiveness;
+        relief_time_left -= (Time.deltaTime * (int)(aggressiveness + 1));
 
         foreach(GameObject gob in object_list)
         {
