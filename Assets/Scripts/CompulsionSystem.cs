@@ -162,16 +162,30 @@ public class CompulsionSystem : MonoBehaviour {
                     objects.Add(block);
                 }
                 break;
-            //case enActions.Counting:
             case enActions.Tapping:
-            case enActions.Touching:
-                //TODO: Spawn prefab/prompt for number entry
-                int effective_max = Random.Range((int)(max_count / 2), max_count);
-                for(int i = 0; i < effective_max; i++)
                 {
-                    float x = Random.Range(0.0f, 1.0f) - 0.5f;
-                    float y = i * block_size.y;
-                    objects.Add(Spawn_Prefab(block_prefab, new Vector2(x, y)));
+                    int effective_max = Random.Range((int)(max_count / 2), max_count);
+                    for (int i = 0; i < effective_max; i++)
+                    {
+                        float x = Random.Range(0.0f, 1.0f) - 0.5f;
+                        float y = i * block_size.y;
+                        GameObject gob = Spawn_Prefab(block_prefab, new Vector2(x, y));
+                        gob.AddComponent<Tappable>();
+                        objects.Add(gob);
+                    }
+                }
+                break;
+            case enActions.Touching:
+                {
+                    int effective_max = Random.Range((int)(max_count / 2), max_count);
+                    for (int i = 0; i < effective_max; i++)
+                    {
+                        float x = Random.Range(0.0f, 1.0f) - 0.5f;
+                        float y = i * block_size.y;
+                        GameObject gob = Spawn_Prefab(block_prefab, new Vector2(x, y));
+                        gob.AddComponent<Touchable>();
+                        objects.Add(gob);
+                    }
                 }
                 break;
         }
@@ -215,15 +229,30 @@ public class CompulsionSystem : MonoBehaviour {
                     }
                 }
                 break;
-            case enActions.Counting:
             case enActions.Tapping:
-            case enActions.Touching:
-                int count_amount = Random.Range(15, 30);
-                for(int i = 0; i < count_amount; i++)
                 {
-                    float x = Random.Range(0.0f, 4.0f) - 2.0f;
-                    float y = Random.Range(0.0f, 3.0f) - 2.0f;
-                    objects.Add(Spawn_Prefab(circle_prefab, new Vector2(x, y)));
+                    int count_amount = Random.Range(15, 30);
+                    for (int i = 0; i < count_amount; i++)
+                    {
+                        float x = Random.Range(0.0f, 4.0f) - 2.0f;
+                        float y = Random.Range(0.0f, 3.0f) - 2.0f;
+                        GameObject gob = Spawn_Prefab(circle_prefab, new Vector2(x, y));
+                        gob.AddComponent<Tappable>();
+                        objects.Add(gob);
+                    }
+                }
+                break;
+            case enActions.Touching:
+                {
+                    int count_amount = Random.Range(15, 30);
+                    for (int i = 0; i < count_amount; i++)
+                    {
+                        float x = Random.Range(0.0f, 4.0f) - 2.0f;
+                        float y = Random.Range(0.0f, 3.0f) - 2.0f;
+                        GameObject gob = Spawn_Prefab(circle_prefab, new Vector2(x, y));
+                        gob.AddComponent<Touchable>();
+                        objects.Add(gob);
+                    }
                 }
                 break;
         }
@@ -253,17 +282,52 @@ public class CompulsionSystem : MonoBehaviour {
                 }
                 break;
             case enActions.Aligning:
-            case enActions.Tapping:
-            case enActions.Touching:
-                int touch_amount_sq = Random.Range(3, 5);
-                for (int i = 0; i < touch_amount_sq; i++) {
-                    for(int j = 0; j < touch_amount_sq; j++)
+                {
+                    int touch_amount_sq = Random.Range(3, 5);
+                    for (int i = 0; i < touch_amount_sq; i++)
                     {
-                        float x = (i * (switch_size.x)) / 2;
-                        float y = ((j * (switch_size.y)) / 2) - 3;
-                        GameObject switch_component = Spawn_Prefab(switch_prefab, new Vector2(x, y));
-                        switch_component.GetComponent<SwitchComponent>().isOn = Random.value >= 0.5 ? true : false;
-                        objects.Add(switch_component);
+                        for (int j = 0; j < touch_amount_sq; j++)
+                        {
+                            float x = (i * (switch_size.x)) / 2;
+                            float y = ((j * (switch_size.y)) / 2) - 3;
+                            GameObject switch_component = Spawn_Prefab(switch_prefab, new Vector2(x, y));
+                            switch_component.GetComponent<SwitchComponent>().isOn = Random.value >= 0.5 ? true : false;
+                            objects.Add(switch_component);
+                        }
+                    }
+                }
+                break;
+            case enActions.Tapping:
+                {
+                    int touch_amount_sq = Random.Range(3, 5);
+                    for (int i = 0; i < touch_amount_sq; i++)
+                    {
+                        for (int j = 0; j < touch_amount_sq; j++)
+                        {
+                            float x = (i * (switch_size.x)) / 2;
+                            float y = ((j * (switch_size.y)) / 2) - 3;
+                            GameObject switch_component = Spawn_Prefab(switch_prefab, new Vector2(x, y));
+                            switch_component.GetComponent<SwitchComponent>().isOn = Random.value >= 0.5 ? true : false;
+                            switch_component.AddComponent<Tappable>();
+                            objects.Add(switch_component);
+                        }
+                    }
+                }
+                break;
+            case enActions.Touching:
+                {
+                    int touch_amount_sq = Random.Range(3, 5);
+                    for (int i = 0; i < touch_amount_sq; i++)
+                    {
+                        for (int j = 0; j < touch_amount_sq; j++)
+                        {
+                            float x = (i * (switch_size.x)) / 2;
+                            float y = ((j * (switch_size.y)) / 2) - 3;
+                            GameObject switch_component = Spawn_Prefab(switch_prefab, new Vector2(x, y));
+                            switch_component.GetComponent<SwitchComponent>().isOn = Random.value >= 0.5 ? true : false;
+                            switch_component.AddComponent<Touchable>();
+                            objects.Add(switch_component);
+                        }
                     }
                 }
                 break;
@@ -337,7 +401,14 @@ public class CompulsionSystem : MonoBehaviour {
     public bool CheckSolution()
     {
         //return false;
-        return CheckSwitch();
+        //return CheckTouchOrTapped();
+        bool value = CheckTouchOrTapped();
+        if (value)
+            Debug.Log("Valid");
+        else
+            Debug.Log("Invalid");
+
+        return value;
     }
 
     bool CheckVerticalValidity()
@@ -516,6 +587,14 @@ public class CompulsionSystem : MonoBehaviour {
         Debug.Log("Valid switches");
         return true;
             
+    }
+    bool CheckTouchOrTapped()
+    {
+        foreach(GameObject gob in object_list)
+        {
+            if (gob.GetComponent<SpriteRenderer>().color != Color.green) return false;
+        }
+        return true;
     }
 
     GameObject Spawn_Prefab(GameObject prefab, Vector2 position)

@@ -21,6 +21,17 @@ public class DraggingSystem : MonoBehaviour {
             previous_dragging.GetComponent<Rigidbody2D>().angularVelocity = 0;
             cancel_momentum = false;
         }
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
+        if(hit.collider != null)
+        {
+            Touchable touchable_component = hit.transform.gameObject.GetComponent<Touchable>();
+            if(touchable_component != null && touchable_component.enabled)
+            {
+                touchable_component.Touch();
+                has_interacted = true;
+            }
+        }
     }
 	
 	// Update is called once per frame
@@ -39,6 +50,7 @@ public class DraggingSystem : MonoBehaviour {
             {
                 Draggable draggable_component = hit.transform.gameObject.GetComponent<Draggable>();
                 SwitchComponent switch_component = hit.transform.gameObject.GetComponent<SwitchComponent>();
+                Tappable tappable_component = hit.transform.gameObject.GetComponent<Tappable>();
                 if (draggable_component != null && draggable_component.enabled)
                 {
                     currently_dragging = hit.transform.gameObject;
@@ -47,6 +59,12 @@ public class DraggingSystem : MonoBehaviour {
                 else if (switch_component != null && switch_component.enabled)
                 {
                     switch_component.Toggle();
+                    has_interacted = true;
+                }
+
+                if(tappable_component != null && tappable_component.enabled)
+                {
+                    tappable_component.Tap();
                     has_interacted = true;
                 }
             }
