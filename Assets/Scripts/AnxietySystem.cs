@@ -10,6 +10,7 @@ public class AnxietySystem : MonoBehaviour {
 
     public int relief_time;
     public float anxiety_buildup;
+    public float run_time;
     public float reduce_rate;
     public float raise_rate;
 
@@ -22,17 +23,28 @@ public class AnxietySystem : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
 	}
 
     public void ReduceAnxiety()
     {
         //Debug.Log("Reducing Anxiety");
+        run_time -= 2 * Time.deltaTime; //I don't expect people to stay in this state long unless they figure out what's going on.
+        CalculateAnxiety();
     }
 
     public void RaiseAnxiety(bool solved)
     {
         //Debug.Log("Raising Anxiety");
+        if (!solved)
+        {
+            run_time += Time.deltaTime;
+            CalculateAnxiety();
+        }
+    }
+
+    void CalculateAnxiety()
+    {
+        anxiety_buildup = ((float)1 / 60) * (run_time * run_time);// (1/60) * x^2
     }
 
     public bool TickRelief(List<GameObject> object_list = null)
