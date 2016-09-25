@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +9,10 @@ public class CompulsionSystem : MonoBehaviour {
     private int object_size = 4;
     public enum enActions {None, Aligning, Sorting, Tapping, Touching};
     public enum enObjects {None, Blocks, Circles, Switches};
-    public enum enCycleState { Obsession, Anxiety, Compulsion, Relief };
+    public enum enCycleState { Obsession, Anxiety, Compulsion, Relief, End };
 
     public GameObject block_prefab, circle_prefab, switch_prefab; //button_prefab, lock_prefab, number_prefab;
+    public GameObject cross_prefab, check_prefab;
 
     public enActions current_action;
     public enObjects current_object;
@@ -23,6 +25,9 @@ public class CompulsionSystem : MonoBehaviour {
     private List<enObjects> object_set;
     private List<GameObject> object_list;
     private bool isPuzzleComplete = false;
+    private bool moveOnClicked = false;
+
+    GameObject fade_instance;
 
 	// Use this for initialization
 	void Awake() {
@@ -58,6 +63,24 @@ public class CompulsionSystem : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+        if(fade_instance != null)
+        {
+            SpriteRenderer renderer = fade_instance.GetComponent<SpriteRenderer>();
+            if(renderer != null)
+            {
+                Color color = renderer.color;
+                color.a -= Time.deltaTime;
+                renderer.color = color;
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            ShowCheck();
+        }
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            ShowCross();
+        }
         DraggingSystem input_system = gameObject.GetComponent<DraggingSystem>();
         AnxietySystem anxiety_system = gameObject.GetComponent<AnxietySystem>();
         switch (ocd_cycle)
@@ -75,6 +98,20 @@ public class CompulsionSystem : MonoBehaviour {
                 ocd_cycle = enCycleState.Anxiety;
                 break;
             case enCycleState.Anxiety:
+                if (moveOnClicked)
+                {
+                    action_set.RemoveRange(action_set.Count - 2, 2);
+                    object_set.RemoveRange(object_set.Count - 2, 2);
+                    if(action_set.Count > 1 && object_set.Count > 1)
+                    {
+                        ocd_cycle = enCycleState.Relief;
+                        moveOnClicked = false;
+                    }
+                    else
+                    {
+                        ocd_cycle = enCycleState.End;
+                    }
+                }
                 if (!input_system.PlayerHasInteracted())
                 {
                     anxiety_system.ReduceAnxiety();
@@ -87,8 +124,9 @@ public class CompulsionSystem : MonoBehaviour {
             case enCycleState.Compulsion:
                 anxiety_system.RaiseAnxiety(isPuzzleComplete);
                 //TODO: Needs a way of rolling over to relief with a UI element
-                if (Input.GetKeyDown(KeyCode.Space) && isPuzzleComplete)
+                if (moveOnClicked)
                 {
+                    moveOnClicked = false;
                     ocd_cycle = enCycleState.Relief;
                 }
                 break;
@@ -97,6 +135,9 @@ public class CompulsionSystem : MonoBehaviour {
                 {
                     ocd_cycle = enCycleState.Obsession;
                 }
+                break;
+            case enCycleState.End:
+                SceneManager.LoadScene("End Game");
                 break;
         }
 	}
@@ -601,6 +642,37 @@ public class CompulsionSystem : MonoBehaviour {
                                                    new_block.transform.position.y + position.y, 
                                                    new_block.transform.position.z);
         return new_block;
+    }
+
+    public void MoveOn()
+    {
+        moveOnClicked = true;
+        switch (ocd_cycle)
+        {
+            case enCycleState.Anxiety:
+                //Move towards winning goal
+                break;
+            case enCycleState.Compulsion:
+                if (isPuzzleComplete) ShowCheck();
+                else ShowCross();
+                break;
+        }
+    }
+
+    void ShowCross()
+    {
+        if (fade_instance != null) Destroy(fade_instance);
+        GameObject instance = Instantiate(cross_prefab);
+        fade_instance = instance;
+        Destroy(instance, 10);
+    }
+
+    void ShowCheck()
+    {
+        if (fade_instance != null) Destroy(fade_instance);
+        GameObject instance = Instantiate(check_prefab);
+        fade_instance = instance;
+        Destroy(instance, 10);
     }
 
 }

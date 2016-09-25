@@ -22,6 +22,10 @@ public class MoveOnButton : MonoBehaviour {
                 Mathf.Clamp(gameObject.transform.localScale.x + growth, 0, scale.y),
                 Mathf.Clamp(gameObject.transform.localScale.z + growth, 0, scale.z));
         }
+        else if(current_state == CompulsionSystem.enCycleState.Compulsion)
+        {
+            gameObject.transform.localScale = scale;
+        }
         else
         {
             gameObject.transform.localScale = Vector3.zero;

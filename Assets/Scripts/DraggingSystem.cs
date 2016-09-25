@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class DraggingSystem : MonoBehaviour {
@@ -51,6 +52,8 @@ public class DraggingSystem : MonoBehaviour {
                 Draggable draggable_component = hit.transform.gameObject.GetComponent<Draggable>();
                 SwitchComponent switch_component = hit.transform.gameObject.GetComponent<SwitchComponent>();
                 Tappable tappable_component = hit.transform.gameObject.GetComponent<Tappable>();
+                MoveOnButton moveon_component = hit.transform.gameObject.GetComponent<MoveOnButton>();
+                RestartButton restart_component = hit.transform.gameObject.GetComponent<RestartButton>();
                 if (draggable_component != null && draggable_component.enabled)
                 {
                     currently_dragging = hit.transform.gameObject;
@@ -66,6 +69,16 @@ public class DraggingSystem : MonoBehaviour {
                 {
                     tappable_component.Tap();
                     has_interacted = true;
+                }
+
+                if(moveon_component != null && moveon_component.enabled)
+                {
+                    gameObject.GetComponent<CompulsionSystem>().MoveOn();
+                }
+
+                if(restart_component != null && restart_component.enabled)
+                {
+                    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
                 }
             }
         }
