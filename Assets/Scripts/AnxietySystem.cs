@@ -8,6 +8,11 @@ public class AnxietySystem : MonoBehaviour {
     //win condition is not being approached.
 
     public int relief_time;
+    public float anxiety_buildup;
+    public float reduce_rate;
+    public float raise_rate;
+
+    private float relief_time_left;
     
 	// Use this for initialization
 	void Start () {
@@ -32,5 +37,10 @@ public class AnxietySystem : MonoBehaviour {
     public bool TickRelief()
     {
         return false;
+    }
+
+    public void Reset_Relief()
+    {
+        relief_time_left = relief_time;
     }
 }
