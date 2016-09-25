@@ -17,7 +17,7 @@ public class CompulsionSystem : MonoBehaviour {
     public enCycleState ocd_cycle;
     public int global_number;
     public int max_count;
-    public double vertical_column_error_threshold;
+    public float margin_of_error_threshold;
 
     private List<enActions> action_set;
     private List<enObjects> object_set;
@@ -87,7 +87,7 @@ public class CompulsionSystem : MonoBehaviour {
             case enCycleState.Compulsion:
                 anxiety_system.RaiseAnxiety(isPuzzleComplete);
                 //TODO: Needs a way of rolling over to relief with a UI element
-                if (Input.GetKeyDown(KeyCode.Space))
+                if (Input.GetKeyDown(KeyCode.Space) && isPuzzleComplete)
                 {
                     ocd_cycle = enCycleState.Relief;
                 }
@@ -150,9 +150,9 @@ public class CompulsionSystem : MonoBehaviour {
                 break;
             case enActions.Sorting:
                 List<Color> colors = new List<Color>();
-                colors.Add(Color.cyan);
-                colors.Add(Color.magenta);
-                colors.Add(Color.yellow);
+                colors.Add(Color.red);
+                colors.Add(Color.green);
+                colors.Add(Color.blue);
                 for(int i = 0; i < global_number; i++)
                 {
                     float x = Random.Range(0.0f, 1.0f) - 0.5f;
@@ -337,12 +337,13 @@ public class CompulsionSystem : MonoBehaviour {
     public bool CheckSolution()
     {
         //return false;
-        return CheckVerticalValidity(1);
+        return CheckSwitch();
     }
 
-    bool CheckVerticalValidity(int max_column_count)
+    bool CheckVerticalValidity()
     {
         List<GameObject> x_sorted;
+        List<Color> unique_colors = new List<Color>();
         if (object_list != null && object_list.Count >= 0) {
             x_sorted = object_list.OrderBy(x => x.transform.position.x).ToList();
         }
@@ -353,37 +354,168 @@ public class CompulsionSystem : MonoBehaviour {
         int column_count = 0;
         float min_y = float.MaxValue;
         GameObject previous = null;
+        bool colorCorrect = true;
+        Color currentColor = Color.white;
         foreach(GameObject gob in x_sorted)
         {
+            Color tempColor = gob.GetComponent<SpriteRenderer>().color;
+            if (!unique_colors.Contains(tempColor)) unique_colors.Add(tempColor);
+
             if (previous == null)
             {
                 column_count++;
                 previous = gob;
+                currentColor = previous.GetComponent<SpriteRenderer>().color;
                 continue;
             }
             else {
                 float gob_x = gob.transform.position.x;
                 float prev_x = previous.transform.position.x;
+                Color gob_color = gob.GetComponent<SpriteRenderer>().color;
 
-                if (Mathf.Abs(gob_x - prev_x) > vertical_column_error_threshold)
+                if (Mathf.Abs(gob_x - prev_x) > margin_of_error_threshold)
                 {
                     //Is a new column
                     column_count++;
                 }
+                else
+                {
+                    if (gob_color != currentColor)
+                        colorCorrect = false;
+                }
+                currentColor = gob_color;
             }
 
             min_y = min_y < gob.transform.position.y ? min_y : gob.transform.position.y;
 
             previous = gob;
         }
+        //Debug.Log("column count = " + column_count + "\tcolor correct = " + colorCorrect);
+
+        int max_column_count = unique_colors.Count;
+
         //One cube should be on the ground
-        if(column_count > max_column_count || min_y > (-4.5 + vertical_column_error_threshold))
+        if(!colorCorrect || column_count > max_column_count || min_y > (-4.5 + margin_of_error_threshold))
         {
+            Debug.Log("invalid");
             return false; //too high
         }
-        Debug.Log("column count = " + column_count);
+
+        Debug.Log("valid");
+        return true;
+    }
+    bool CheckHorizontalValidity()
+    {
+        List<GameObject> y_sorted;
+        List<Color> unique_colors = new List<Color>();
+        if (object_list != null && object_list.Count >= 0) {
+            y_sorted = object_list.OrderBy(x => x.transform.position.y).ToList();
+        }
+        else
+        {
+            return false;
+        }
+        int row_count = 0;
+        GameObject previous = null;
+        bool colorCorrect = true;
+        Color currentColor = Color.white;
+        foreach(GameObject gob in y_sorted)
+        {
+            Color tempColor = gob.GetComponent<SpriteRenderer>().color;
+            if (!unique_colors.Contains(tempColor)) unique_colors.Add(tempColor);
+
+            if (previous == null)
+            {
+                row_count++;
+                previous = gob;
+                currentColor = previous.GetComponent<SpriteRenderer>().color;
+                continue;
+            }
+            else {
+                float gob_y = gob.transform.position.y;
+                float prev_y = previous.transform.position.y;
+                Color gob_color = gob.GetComponent<SpriteRenderer>().color;
+
+                if (Mathf.Abs(gob_y - prev_y) > margin_of_error_threshold)
+                {
+                    //Is a new column
+                    row_count++;
+                }
+                else
+                {
+                    if (gob_color != currentColor)
+                        colorCorrect = false;
+                }
+                currentColor = gob_color;
+            }
+
+            previous = gob;
+        }
+        //Debug.Log("column count = " + column_count + "\tcolor correct = " + colorCorrect);
+
+        int max_row_count = unique_colors.Count;
+
+        //One cube should be on the ground
+        if(!colorCorrect || row_count > max_row_count)
+        {
+            Debug.Log("invalid");
+            return false; //too high
+        }
+
+        Debug.Log("valid");
+        return true;
+    }
+    bool CheckSquare()
+    {
+        float max_x = float.MinValue, min_x = float.MaxValue;
+        float max_y = float.MinValue, min_y = float.MaxValue;
+        foreach(GameObject gob in object_list)
+        {
+            Vector3 position = gob.transform.position;
+            max_x = max_x < position.x ? position.x : max_x;
+            min_x = min_x > position.x ? position.x : min_x;
+            max_y = max_y < position.y ? position.y : max_y;
+            min_y = min_y > position.y ? position.y : min_y;
+        }
+        float width = max_x - min_x;
+        float height = max_y - min_y;
+
+        int dim_size = (int)Mathf.Sqrt(object_list.Count);
+        Vector3 object_size = object_list[0].transform.localScale;
+        float acceptable_width = (2 * margin_of_error_threshold) + (dim_size * object_size.x);
+        float acceptable_height = (2 * margin_of_error_threshold) + (dim_size * object_size.y);
+
+        if (acceptable_width < width || acceptable_height < height)
+        {
+            Debug.Log("Invalid square");
+            return false;
+        }
+        Debug.Log("Valid square");
 
         return false;
+    }
+    bool CheckSwitch()
+    {
+        SwitchComponent first_switch = object_list[0].GetComponent<SwitchComponent>();
+        if (first_switch == null) return false;
+
+        for(int i = 1; i < object_list.Count; i++)
+        {
+            SwitchComponent second_switch = object_list[i].GetComponent<SwitchComponent>();
+            if (second_switch == null) return false;
+
+            bool first_value = first_switch.isOn;
+            bool second_value = second_switch.isOn;
+            if ((first_value && !second_value) || (!first_value && second_value))
+            {
+                Debug.Log("Invalid switches");
+                return false;
+            }
+        }
+
+        Debug.Log("Valid switches");
+        return true;
+            
     }
 
     GameObject Spawn_Prefab(GameObject prefab, Vector2 position)
